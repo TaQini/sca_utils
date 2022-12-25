@@ -28,7 +28,7 @@ int main(){
         size_t diff = end - start;
         // printf("%lu\n",diff );
         if(diff < MAX_CYCLE){
-                rpt[i] = diff;
+            rpt[i] = diff;
         }
     }
     for (int i = 0; i < repeat; ++i) {
