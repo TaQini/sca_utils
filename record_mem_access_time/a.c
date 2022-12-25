@@ -1,42 +1,13 @@
 #include <stdio.h>
 #include <stdint.h>
+#include "timing.h"
+#include "memory.h"
 
 static int dummy_mem[4096];
 static int l1_thrash[256 * 1024 / sizeof(int)];
 
-// ---------------------------------------------------------------------------
-uint64_t rdtsc() {
-    uint64_t a, d;
-    asm volatile ("mfence");
-    asm volatile ("rdtsc" : "=a" (a), "=d" (d));
-    asm volatile ("mfence");
-    return (d << 32) | a;
-}
-
-// ---------------------------------------------------------------------------
-uint64_t rdtscl() {
-    uint64_t a, d;
-    asm volatile ("lfence");
-    asm volatile ("rdtsc" : "=a" (a), "=d" (d));
-    asm volatile ("lfence");
-    return (d << 32) | a;
-}
-
-// ---------------------------------------------------------------------------
-void maccess(volatile void *p) {
-    asm volatile ("movq (%0), %%rax\n"
-    :
-    : "c" (p)
-    : "rax");
-}
-
-// ---------------------------------------------------------------------------
-void flush(volatile void *p) {
-    asm volatile ("clflush 0(%0)\n"
-    :
-    : "c" (p)
-    : "rax");
-}
+void maccess(volatile void *p);
+uint64_t rdtsc();
 
 // mem access and get time record
 #define REPEAT 100000
