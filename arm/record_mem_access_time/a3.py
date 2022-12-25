@@ -8,6 +8,8 @@ title = sys.argv[2]
 fig = sys.argv[3]
 
 df = pd.read_csv(log)
+time = df.value_counts().idxmax()[0]
+print("most access time: "+str(int(time)))
 
 print('\nraw data:')
 print(df.describe())

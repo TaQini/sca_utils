@@ -1,3 +1,4 @@
+most access time: 92
 
 raw data:
                 2888
@@ -22,6 +23,7 @@ min         0.000000
 max       100.000000
 
 draw hist...
+most access time: 80
 
 raw data:
                  120
@@ -46,6 +48,7 @@ min         0.000000
 max       540.000000
 
 draw hist...
+most access time: 232
 
 raw data:
                  424
