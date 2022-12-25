@@ -32,7 +32,7 @@ int main(){
     size_t repeat = REPEAT;
     for(int i = 0; i < repeat; i++){
         size_t start = rdtsc();
-	arm_v8_access_memory(dummy);
+        arm_v8_access_memory(dummy);
         size_t end = rdtsc();
         size_t diff = end - start;
         // printf("%lu\n",diff );
