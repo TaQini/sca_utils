@@ -1,3 +1,3 @@
 #!/bin/sh
-./a.py a.log 'L1 cache hit' 1
-./a3.py b.log 'L2 cache miss' 2
+./a.py a.log 'L1 cache hit' 1 0.9999
+./a.py b.log 'LLC cache miss' 2 0.99
