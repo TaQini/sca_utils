@@ -13,7 +13,7 @@ print('\nraw data:')
 print(df.describe())
 
 print('\nnew data:')
-new = df[df<df.quantile(0.9999)]
+new = df[df<df.quantile(0.95)]
 print(new.describe())
 
 print('\ndraw hist...')

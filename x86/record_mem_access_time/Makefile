@@ -1,8 +1,14 @@
-FLAGS = -Wall -g -O3 -march=native -std=gnu11
+FLAGS = -Wall -O3 -march=native -std=gnu11
 
-all: a
+all: L1 L2 LLC
+	
+L1: L1.c 
+	gcc $(FLAGS) -o $@ $@.c 
 
-a: a.c 
+L2: L2.c 
+	gcc $(FLAGS) -o $@ $@.c 
+
+LLC: LLC.c 
 	gcc $(FLAGS) -o $@ $@.c 
 
 %.o: %.c
@@ -10,4 +16,4 @@ a: a.c
 
 .PHONY: clean
 clean:
-	rm -f a 
+	rm -f L1 L2 LLC
