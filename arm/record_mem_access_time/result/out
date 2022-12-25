@@ -1,3 +1,5 @@
+most access time: 130
+
 raw data:
                  130
 count  999999.000000
@@ -21,6 +23,7 @@ min         0.000000
 max       141.000000
 
 draw hist...
+most access time: 342
 
 raw data:
                 1092
