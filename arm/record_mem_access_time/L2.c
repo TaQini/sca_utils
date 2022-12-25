@@ -34,16 +34,15 @@ int main(){
     volatile int *dummy = &(dummy_mem[2048]);
     arm_v8_timing_init();
     for(int i = 0; i < repeat; i++){
+        arm_v8_flush(dummy);
         size_t start = rdtsc();
         arm_v8_access_memory(dummy);
         size_t end = rdtsc();
-        arm_v8_flush(dummy);
         size_t diff = end - start;
         // printf("%lu\n",diff );
         if(diff < MAX_CYCLE){
             rpt[i] = diff;
         }
-        rpt[i] = diff;
     }
     for (int i = 0; i < repeat; ++i) {
         printf("%lu\n", rpt[i]);

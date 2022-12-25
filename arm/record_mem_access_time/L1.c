@@ -33,6 +33,7 @@ int main(){
     memset(rpt, 0, sizeof(rpt));
     volatile int *dummy = &(dummy_mem[2048]);
     arm_v8_timing_init();
+    arm_v8_access_memory(dummy);
     for(int i = 0; i < repeat; i++){
         size_t start = rdtsc();
         arm_v8_access_memory(dummy);
@@ -42,7 +43,6 @@ int main(){
         if(diff < MAX_CYCLE){
             rpt[i] = diff;
         }
-        rpt[i] = diff;
     }
     for (int i = 0; i < repeat; ++i) {
         printf("%lu\n", rpt[i]);
