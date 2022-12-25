@@ -28,5 +28,12 @@ arm_v8_prefetch(void* pointer)
   asm volatile ("PRFM PLDL1KEEP, [%x0]" :: "p" (pointer));
 }
 
+inline void arm_v8_flush(void* address)
+{
+  asm volatile ("DC CIVAC, %0" :: "r"(address));
+  asm volatile ("DSB ISH");
+  asm volatile ("ISB");
+}
+
 #endif  /*ARM_v8_MEMORY_H*/
 

@@ -3,18 +3,24 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import sys
 
-df = pd.read_csv(sys.argv[1])
+log = sys.argv[1]
+title = sys.argv[2]
+fig = sys.argv[3]
+
+df = pd.read_csv(log)
 
 print('\nraw data:')
 print(df.describe())
 
 print('\nnew data:')
-print(df[df<df.quantile(0.9999)].describe())
+new = df[df<df.quantile(0.9999)]
+print(new.describe())
 
 print('\ndraw hist...')
-plt.hist(df[df<df.quantile(0.9999)])
+plt.hist(new)
 plt.xlabel('CYCLE')
 plt.ylabel('HITS')
-plt.title('CPU cycle of cache hit pre memaccess')
-plt.show()
+plt.title('CPU cycle of %s pre memaccess'%title)
+# plt.show()
+plt.savefig(fig)
 
