@@ -16,21 +16,16 @@ int main(){
     uint64_t repeat = REPEAT;
     memset(rpt, 0, sizeof(rpt));
     volatile int *dummy = &(dummy_mem[2048]);
+    int fd = perf_init();
+    x64_access_memory(dummy);    
     for(int i = 0; i < repeat; i++){
-        // access dummy -> L1 (hit or not)
+        uint64_t start = perf_get_timing(fd);
         x64_access_memory(dummy);
-        // flush L1: padding fill -> L1
-        asm volatile("xor %%rax, %%rax\ncpuid":: : "rax", "rbx", "rcx", "rdx");
-        memset(l1_thrash, i & 0xff, sizeof(l1_thrash));
-        asm volatile("xor %%rax, %%rax\ncpuid":: : "rax", "rbx", "rcx", "rdx");
-        // access dummy again -> L1 (miss)
-        uint64_t start = rdtsc();
-        x64_access_memory(dummy);
-        uint64_t end = rdtsc();
+        uint64_t end = perf_get_timing(fd);
         uint64_t diff = end - start;
         // printf("%lu\n",diff );
         if(diff < MAX_CYCLE){
-                rpt[i] = diff;
+        	rpt[i] = diff;
         }
     }
     for (int i = 0; i < repeat; ++i) {

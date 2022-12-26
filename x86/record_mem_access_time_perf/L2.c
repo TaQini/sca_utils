@@ -15,6 +15,7 @@ uint64_t rpt[REPEAT];
 int main(){
     uint64_t repeat = REPEAT;
     memset(rpt, 0, sizeof(rpt));
+    int fd = perf_init();
     volatile int *dummy = &(dummy_mem[2048]);
     for(int i = 0; i < repeat; i++){
         // access dummy -> L1 (hit or not)
@@ -24,9 +25,9 @@ int main(){
         memset(l1_thrash, i & 0xff, sizeof(l1_thrash));
         asm volatile("xor %%rax, %%rax\ncpuid":: : "rax", "rbx", "rcx", "rdx");
         // access dummy again -> L1 (miss)
-        uint64_t start = rdtsc();
+        uint64_t start = perf_get_timing(fd);
         x64_access_memory(dummy);
-        uint64_t end = rdtsc();
+        uint64_t end = perf_get_timing(fd);
         uint64_t diff = end - start;
         // printf("%lu\n",diff );
         if(diff < MAX_CYCLE){
