@@ -1,6 +1,9 @@
 #!/bin/sh
 make all
 
-sudo ./L1 > a.log
-sudo ./L2 > b.log 
+sudo setcap cap_sys_admin+ep L1
+sudo setcap cap_sys_admin+ep L2
+
+./L1 > a.log
+./L2 > b.log 
 
