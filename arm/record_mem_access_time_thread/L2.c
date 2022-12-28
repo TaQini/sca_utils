@@ -31,9 +31,15 @@ int main(){
 
     for(int i = 0; i < repeat; i++){
         arm_v8_flush(dummy);
+        arm_v8_memory_barrier();
         uint64_t start = counter;
+        arm_v8_memory_barrier();
+
         arm_v8_access_memory(dummy);
+
+        arm_v8_memory_barrier();
         uint64_t end = counter;
+        arm_v8_memory_barrier();
         uint64_t diff = end - start;
         // printf("%lu\n",diff );
         if(diff < MAX_CYCLE){
