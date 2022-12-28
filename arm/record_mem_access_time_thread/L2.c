@@ -13,10 +13,12 @@ uint64_t rpt[REPEAT];
 volatile uint64_t counter = 0;
 
 static void *thread_counter_func() {
-    asm volatile("1: inc %%ecx;"
-                 "mov %%ecx,(%%rax);"
-                 "jmp 1b"::"a"(&counter),
-                           "c"(0ULL));
+    while (1) {
+        asm volatile("1: add %0, %0, 1;"
+                 "str %0, [%1];"
+                 "bl 1b"::"r"(0ULL),
+                          "r"(&counter));
+    }
     pthread_exit(NULL);
 }
 

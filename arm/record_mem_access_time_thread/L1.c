@@ -13,10 +13,12 @@ uint64_t rpt[REPEAT];
 volatile uint64_t counter = 0;
 
 static void *thread_counter_func() {
-    asm volatile("1: inc %%ecx;"
-                 "mov %%ecx,(%%rax);"
-                 "jmp 1b"::"a"(&counter),
-                           "c"(0ULL));
+    while (1) {
+        asm volatile("1: add %0, %0, 1;"
+                 "str %0, [%1];"
+                 "bl 1b"::"r"(0ULL),
+                          "r"(&counter));
+    }
     pthread_exit(NULL);
 }
 
@@ -27,17 +29,23 @@ int main(){
     arm_v8_access_memory(dummy);
     pthread_t thread;
     pthread_create(&thread, NULL, thread_counter_func, NULL);
-
     for(int i = 0; i < repeat; i++){
+        arm_v8_memory_barrier();
         uint64_t start = counter;
+        arm_v8_memory_barrier();
+	
         arm_v8_access_memory(dummy);
+
+        arm_v8_memory_barrier();
         uint64_t end = counter;
+        arm_v8_memory_barrier();
         uint64_t diff = end - start;
         // printf("%lu\n",diff );
         if(diff < MAX_CYCLE){
             rpt[i] = diff;
         }
     }
+    
     for (int i = 0; i < repeat; ++i) {
         printf("%lu\n", rpt[i]);
     }
