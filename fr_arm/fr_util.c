@@ -11,7 +11,7 @@ CYCLES measure_one_block_access_time(ADDR_PTR addr)
     CYCLES start, end;
 
     start = arm_v8_get_timing();
-    arm_v8_get_timing(addr);
+    arm_v8_access_memory(addr);
     end = arm_v8_get_timing();
 
     // asm volatile("mov %1, %%r8\n\t"
@@ -149,6 +149,7 @@ void init_config(struct config *config, int argc, char **argv)
 	//      -i is used to specify the sending interval rate
 	//      -o is used to specify the shared file offset
 	int option;
+	arm_v8_timing_init();
 	while ((option = getopt(argc, argv, "i:o:f:")) != -1) {
 		switch (option) {
 			case 'i':

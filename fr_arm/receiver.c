@@ -1,7 +1,7 @@
 #include "fr_util.h"
 
 // Cache miss latency threshold
-int CACHE_MISS_LATENCY = 100;
+int CACHE_MISS_LATENCY = 240;
 
 /*
  * Detects a bit by repeatedly measuring the access time of the load from config->addr
